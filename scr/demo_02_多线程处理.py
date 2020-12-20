@@ -48,7 +48,7 @@ def main():
     for i in nloops:
         while locks[i].locked():
             pass
-# ab
+# abadasd
     logging.info('loop main time' + ctime())
 if __name__ == '__main__':
     main()
