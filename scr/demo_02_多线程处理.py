@@ -28,27 +28,37 @@ if __name__ == '__main__':
     main()
 '''
 loops = [2, 4]
-def loop(nloop, nsec, lock):
-    logging.info('start time loop' + str(nloop) + ctime())
-    sleep(nsec)
-    logging.info('end time loop' + str(nloop) + ctime())
-    lock.release()
+# class MyThread(threading.Thread):
+#     # 重写
+#     # 自定义线程中 如果子类重写了父类以后的同名init方法
+#     # 子类需要调用父类的同名init方法
+#     def __init__(self, func, args, name):
+#         super(MyThread, self).__init__()
+#         self.func = func
+#         self.args = args
+#         self.name = name
+#
+#     def run(self):
+#         self.func(*self.args)
 
+def loop(nloop, nsec):
+    logging.info('start time loop:' + str(nloop) + ctime())
+    sleep(nsec)
+    logging.info('end time loop:' + str(nloop) + ctime())
 
 def main():
-    logging.info('loop main time' + ctime())
-    locks = []
+    logging.info('loop main time:' + ctime())
+    threads = []
     nloops = range(len(loops))
+    #创建两个线程
     for i in nloops:
-        lock = _thread.allocate_lock()
-        lock.acquire()
-        locks.append(lock)
+        work_thread = threading.Thread(target=loop, args=(i, loops[i]))
+        threads.append(work_thread)
+    # 启动两个线程
     for i in nloops:
-        _thread.start_new_thread(loop,(i, loops[i], locks[i]))
+        threads[i].start()
     for i in nloops:
-        while locks[i].locked():
-            pass
-# abadasd
+        threads[i].join()
     logging.info('loop main time' + ctime())
 if __name__ == '__main__':
     main()
