@@ -24,4 +24,4 @@ class TestDemo:
         print('test_three')
 
 if __name__ == '__main__':
-    pytest.main(['test_demo01.py::TestDemo', '-v'])
+    pytest.main(['test_implicitly_wait.py::TestDemo', '-v'])
